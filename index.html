@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Siggy Bot Pro</title>
+
+<style>
+
+body{
+background:#0f172a;
+color:white;
+font-family:Arial;
+text-align:center;
+padding-top:80px;
+}
+
+.card{
+background:#1e293b;
+padding:40px;
+border-radius:14px;
+width:420px;
+margin:auto;
+box-shadow:0 0 30px rgba(0,0,0,0.5);
+}
+
+h1{
+margin-bottom:10px;
+}
+
+.stat{
+margin:10px 0;
+font-size:18px;
+}
+
+.status{
+color:#22c55e;
+font-weight:bold;
+}
+
+button{
+margin-top:20px;
+padding:12px 25px;
+border:none;
+border-radius:8px;
+background:#3b82f6;
+color:white;
+cursor:pointer;
+font-size:16px;
+}
+
+button:hover{
+background:#2563eb;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>🤖 Siggy Bot Pro</h1>
+
+<div class="stat">Status: <span id="status">Loading...</span></div>
+<div class="stat">Servers: <span id="servers">0</span></div>
+<div class="stat">Ping: <span id="ping">0</span> ms</div>
+
+<button onclick="invite()">Invite Bot</button>
+
+</div>
+
+<script>
+
+async function loadStats(){
+
+const res = await fetch("/api/stats");
+const data = await res.json();
+
+document.getElementById("status").innerText = data.status;
+document.getElementById("servers").innerText = data.servers;
+document.getElementById("ping").innerText = data.ping;
+
+}
+
+setInterval(loadStats,2000);
+loadStats();
+
+function invite(){
+alert("Put your Discord bot invite link here.");
+}
+
+</script>
+
+</body>
+</html>
