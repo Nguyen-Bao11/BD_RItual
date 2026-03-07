@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Siggy AI Bot</title>
+  <style>
+    body {
+      background: #0f172a;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 60px 20px;
+      margin: 0;
+    }
+    h1 {
+      margin-bottom: 10px;
+      color: #22c55e;
+    }
+    p {
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    input {
+      padding: 14px;
+      width: 70%;
+      max-width: 320px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+    button {
+      padding: 14px 28px;
+      margin-left: 10px;
+      background: #22c55e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #16a34a;
+    }
+    button:disabled {
+      background: #4b5563;
+      cursor: not-allowed;
+    }
+    #answer {
+      margin-top: 40px;
+      font-size: 20px;
+      min-height: 60px;
+      padding: 0 20px;
+      line-height: 1.5;
+    }
+    .loading {
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Siggy AI Bot</h1>
+    <p>Ask anything and Siggy will reply instantly!</p>
+
+    <input id="question" placeholder="Type your question..." autocomplete="off" />
+    <button id="askBtn" onclick="askBot()">Ask</button>
+
+    <div id="answer"></div>
+  </div>
+
+  <script>
+    const questionInput = document.getElementById('question');
+    const askBtn = document.getElementById('askBtn');
+    const answerDiv = document.getElementById('answer');
+
+    async function askBot() {
+      const q = questionInput.value.trim();
+      if (!q) {
+        answerDiv.innerHTML = '<span style="color:#ef4444">Please enter a question!</span>';
+        return;
+      }
+
+      answerDiv.innerHTML = '<span class="loading">Siggy is thinking...</span>';
+      askBtn.disabled = true;
+
+      try {
+        const res = await fetch('/ask', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: q })
+        });
+
+        if (!res.ok) throw new Error('Server error');
+
+        const data = await res.json();
+        answerDiv.innerText = data.answer;
+      } catch (err) {
+        answerDiv.innerHTML = '<span style="color:#ef4444">Something went wrong. Please try again!</span>';
+      } finally {
+        askBtn.disabled = false;
+      }
+    }
+
+    questionInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') askBot();
+    });
+  </script>
+</body>
+</html>
