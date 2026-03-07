@@ -1,1 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Siggy AI</title>
 
+<style>
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+padding-top:60px;
+}
+
+#chat{
+width:400px;
+margin:auto;
+background:#1e293b;
+padding:20px;
+border-radius:10px;
+}
+
+input{
+width:70%;
+padding:10px;
+border:none;
+border-radius:5px;
+}
+
+button{
+padding:10px 15px;
+background:#38bdf8;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+#messages{
+margin-top:20px;
+text-align:left;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Siggy AI Bot 🤖</h1>
+
+<div id="chat">
+
+<input id="question" placeholder="Ask something..." />
+<button onclick="ask()">Send</button>
+
+<div id="messages"></div>
+
+</div>
+
+<script>
+
+async function ask(){
+
+const question = document.getElementById("question").value
+
+const res = await fetch("/ask",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({question})
+})
+
+const data = await res.json()
+
+const messages = document.getElementById("messages")
+
+messages.innerHTML += `
+<p><b>You:</b> ${data.question}</p>
+<p><b>Siggy:</b> ${data.answer}</p>
+<hr>
+`
+
+}
+
+</script>
+
+</body>
+</html>
