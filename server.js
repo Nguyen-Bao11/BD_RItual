@@ -12,14 +12,6 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', uptime: process.uptime() });
 });
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Explicit route for index
-app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'public/index.html'));
-});
-
 // Main API endpoint
 app.post('/ask', (req, res) => {
   const { question } = req.body;
