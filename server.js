@@ -12,9 +12,12 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', uptime: process.uptime() });
 });
 
-// Fallback route to serve index.html
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Explicit route for index
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.resolve(__dirname, 'public/index.html'));
 });
 
 // Main API endpoint
