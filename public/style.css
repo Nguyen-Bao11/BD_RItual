@@ -288,3 +288,18 @@ bottom:90px;
 .chat-mode .title-zone{
 display:none; /* ẩn tiêu đề */
 }
+.avatar{
+width:38px;
+height:38px;
+border-radius:50%;
+object-fit:cover;
+flex-shrink:0;
+}
+
+.bot-avatar{
+box-shadow:0 0 12px #22c55e;
+}
+
+.user-avatar{
+box-shadow:0 0 12px #7c3aed;
+}
