@@ -26,12 +26,12 @@ msg.innerHTML = `
 `
 }
 else{
-typing.innerHTML = `
-<div class="bot-icon">🕯</div>
-<div class="bubble">Bot đang trả lời...</div>
+msg.innerHTML = `
+<div class="bot-icon">●</div>
+<div class="bubble">${text}</div>
 `
 }
-
+  
 chat.appendChild(msg)
 chat.scrollTop = chat.scrollHeight
 
@@ -118,7 +118,7 @@ typing.className = "message bot typing"
 typing.id = "typing"
 
 typing.innerHTML = `
-<div class="bot-icon">🕯</div>
+<div class="bot-icon">●</div>
 <div class="bubble">Bot đang trả lời...</div>
 `
 
