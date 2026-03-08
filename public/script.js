@@ -62,3 +62,15 @@ value:2
 }
 }
 })
+
+let startedChat = false
+
+function hideIntro(){
+if(startedChat) return
+startedChat = true
+
+const intro = document.querySelector(".title-zone")
+if(intro){
+intro.classList.add("hide")
+}
+}
