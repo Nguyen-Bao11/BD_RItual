@@ -4,17 +4,26 @@ const send = document.getElementById("send")
 
 function addMessage(text, user){
 
+const chat = document.getElementById("chat")
+
 const msg = document.createElement("div")
 msg.className = "message"
 
 if(user){
-msg.innerHTML = "<b>You:</b> " + text
-}else{
-msg.innerHTML = "<b>Siggy:</b> " + text
+msg.classList.add("user")
+msg.innerHTML = `
+<div class="bubble">${text}</div>
+`
+}
+else{
+msg.innerHTML = `
+<div class="bot-icon">●</div>
+<div class="bubble">${text}</div>
+`
 }
 
 chat.appendChild(msg)
-chat.scrollTop = chat.scrollHeight
+
 }
 
 send.onclick = () => {
