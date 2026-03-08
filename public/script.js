@@ -32,6 +32,7 @@ msg.innerHTML = `
 }
 
 chat.appendChild(msg)
+chat.scrollTop = chat.scrollHeight
 
 }
 
