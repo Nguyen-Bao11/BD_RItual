@@ -1,1 +1,5 @@
-
+.ritual-logo{
+width:130px;
+margin-bottom:25px;
+filter:drop-shadow(0 0 25px #8b5cf6);
+}
