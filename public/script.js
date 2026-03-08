@@ -121,8 +121,8 @@ typing.className = "message bot typing"
 typing.id = "typing"
 
 typing.innerHTML = `
-<div class="bot-icon">●</div>
-<div class="bubble">Bot đang trả lời...</div>
+<img class="avatar bot-avatar" src="bot.png">
+<div class="bubble">Siggy is thinking...</div>
 `
 
 chat.appendChild(typing)
