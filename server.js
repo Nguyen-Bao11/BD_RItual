@@ -1,7 +1,6 @@
 import express from "express";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
-import path from "path";
 
 dotenv.config();
 
@@ -28,20 +27,30 @@ app.post("/chat", async (req, res) => {
           model: "gpt-4o-mini",
           messages: [
             { role: "system", content: "You are Siggy AI assistant." },
-            { role: "user", content: userMessage },
-          ],
-        }),
+            { role: "user", content: userMessage }
+          ]
+        })
       }
     );
 
     const data = await response.json();
 
+    if (!data.choices) {
+      return res.json({
+        reply: "⚠️ AI error: API key missing or request failed."
+      });
+    }
+
     res.json({
-      reply: data.choices[0].message.content,
+      reply: data.choices[0].message.content
     });
 
   } catch (err) {
-    res.status(500).json({ error: "AI error" });
+
+    res.json({
+      reply: "⚠️ Server error."
+    });
+
   }
 
 });
