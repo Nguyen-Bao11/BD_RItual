@@ -1,96 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#0f0f1a;
+color:white;
+}
 
-<meta charset="UTF-8">
-<title>Siggy Ritual AI</title>
+.header{
+display:flex;
+justify-content:space-between;
+padding:15px 30px;
+}
 
-<link rel="stylesheet" href="style.css">
+.center{
+max-width:900px;
+margin:auto;
+}
 
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+#chat{
+height:60vh;
+overflow-y:auto;
+padding:20px;
+}
 
-</head>
+.message{
+display:flex;
+align-items:flex-end;
+margin-bottom:15px;
+}
 
-<body>
+.message.user{
+justify-content:flex-end;
+}
 
-<!-- BACKGROUND -->
-<div class="background"></div>
-<div class="background-glow"></div>
-<div id="tsparticles"></div>
+.bubble{
+background:#2a2a3d;
+padding:10px 15px;
+border-radius:10px;
+max-width:60%;
+}
 
-<!-- HEADER -->
-<header class="header">
+.avatar{
+width:36px;
+height:36px;
+border-radius:50%;
+margin:0 10px;
+}
 
-<div class="logo">
-<div class="siggy-icon">🧙‍♀️</div>
+.input-bar{
+position:fixed;
+bottom:0;
+width:100%;
+display:flex;
+gap:10px;
+padding:10px;
+background:#111;
+}
 
-<div>
-<h2>Siggy</h2>
-<span>Arcane Guardian of Ritual</span>
-</div>
-</div>
-
-<div class="status">
-● Channeling the Grid
-</div>
-
-</header>
-
-
-<!-- MAIN -->
-<main class="center">
-
-<div class="title-zone">
-
-<div class="star">🧙‍♀️</div>
-
-<h1>🫧🅳🅴🅼🅾🅽 🅺🅽🅸🅶🅷🆃🫧</h1>
-
-<p>
-Siggy loves everyone, so ask and Siggy will answer.
-</p>
-
-</div>
-
-<div id="chat"></div>
-
-</main>
-
-
-<!-- INPUT BAR -->
-<div class="input-bar">
-
-<!-- Attach -->
-<button id="attach" class="tool-btn">📎</button>
-
-<!-- Hidden file input -->
-<input type="file" id="fileInput" style="display:none">
-
-<!-- Chat input -->
-<input id="input" placeholder="Ask anything"/>
-
-<!-- Mode select -->
-<select id="mode">
-<option>Auto</option>
-<option>Fast</option>
-<option>Smart</option>
-</select>
-
-<!-- Voice -->
-<button id="voice" class="voice-btn">
-<svg viewBox="0 0 24 24">
-<path d="M12 14a3 3 0 003-3V5a3 3 0 00-6 0v6a3 3 0 003 3zm5-3a1 1 0 012 0 7 7 0 01-14 0 1 1 0 012 0 5 5 0 0010 0zM11 19h2v3h-2z"/>
-</svg>
-</button>
-
-<!-- Send -->
-<button id="send">➤</button>
-
-</div>
-
-
-<!-- SCRIPT -->
-<script src="script.js"></script>
-
-</body>
-</html>
+#input{
+flex:1;
+padding:10px;
+}
