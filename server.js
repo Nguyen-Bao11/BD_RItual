@@ -1,73 +1,74 @@
-import express from "express";
-import fetch from "node-fetch";
-import dotenv from "dotenv";
+const input = document.getElementById("input");
+const send = document.getElementById("send");
+const chat = document.getElementById("chat");
 
-dotenv.config();
+function createMessage(text,type){
 
-const app = express();
+const msg = document.createElement("div");
+msg.className = "message " + type;
 
-app.use(express.json());
-app.use(express.static("public"));
+const bubble = document.createElement("div");
+bubble.className = "bubble";
 
-console.log("API KEY:", process.env.OPENROUTER_API_KEY ? "Loaded ✅" : "Missing ❌");
+bubble.innerText = text;
 
-app.post("/chat", async (req, res) => {
-  try {
+msg.appendChild(bubble);
 
-    const userMessage = req.body.message;
+chat.appendChild(msg);
 
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+chat.scrollTop = chat.scrollHeight;
 
-      method: "POST",
+}
 
-      headers: {
-        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        "Content-Type": "application/json"
-      },
+async function sendMessage(){
 
-      body: JSON.stringify({
+const text = input.value.trim();
 
-        model: "meta-llama/llama-3.1-8b-instruct",
+if(!text) return;
 
-        messages: [
-          {
-            role: "system",
-            content: "You are Siggy, Arcane Guardian of Ritual."
-          },
-          {
-            role: "user",
-            content: userMessage
-          }
-        ]
+createMessage(text,"user");
 
-      })
+input.value="";
 
-    });
+/* hiệu ứng Siggy đang suy nghĩ */
 
-    const data = await response.json();
+const thinking = document.createElement("div");
+thinking.className="message bot";
+thinking.innerHTML=`<div class="bubble typing">Siggy is channeling...</div>`;
+chat.appendChild(thinking);
 
-    if (!data.choices) {
-      console.log(data);
-      return res.json({ reply: "⚠ AI connection failed." });
-    }
+chat.scrollTop = chat.scrollHeight;
 
-    res.json({
-      reply: data.choices[0].message.content
-    });
+try{
 
-  } catch (err) {
-
-    console.log(err);
-
-    res.json({
-      reply: "Siggy lost the signal..."
-    });
-
-  }
+const res = await fetch("/chat",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({message:text})
 });
 
-const PORT = process.env.PORT || 3000;
+const data = await res.json();
 
-app.listen(PORT, () => {
-  console.log("Siggy running on port", PORT);
+thinking.remove();
+
+createMessage(data.reply,"bot");
+
+}catch(err){
+
+thinking.remove();
+
+createMessage("Siggy lost the signal...","bot");
+
+}
+
+}
+
+send.onclick=sendMessage;
+
+input.addEventListener("keypress",e=>{
+if(e.key==="Enter"){
+sendMessage();
+}
 });
