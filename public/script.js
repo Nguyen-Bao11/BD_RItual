@@ -26,9 +26,9 @@ msg.innerHTML = `
 `
 }
 else{
-msg.innerHTML = `
-<div class="bot-icon">●</div>
-<div class="bubble">${text}</div>
+typing.innerHTML = `
+<div class="bot-icon">🕯</div>
+<div class="bubble">Bot đang trả lời...</div>
 `
 }
 
