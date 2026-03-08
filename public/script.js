@@ -1,72 +1,55 @@
-const input = document.getElementById("input");
-const send = document.getElementById("send");
-const chat = document.getElementById("chat");
+const chat = document.getElementById("chat")
+const input = document.getElementById("input")
+const send = document.getElementById("send")
 
-/* typing effect */
-function typeMessage(text) {
+function addMessage(text, user){
 
-  const msg = document.createElement("div");
-  msg.className = "bot";
-  chat.appendChild(msg);
+const msg = document.createElement("div")
+msg.className = "message"
 
-  let i = 0;
-
-  function typing() {
-    if (i < text.length) {
-      msg.innerHTML += text.charAt(i);
-      i++;
-      setTimeout(typing, 25);
-    }
-  }
-
-  typing();
+if(user){
+msg.innerHTML = "<b>You:</b> " + text
+}else{
+msg.innerHTML = "<b>Siggy:</b> " + text
 }
 
-/* welcome message */
-window.onload = () => {
-  typeMessage("Welcome to the gRitual Fam family!");
-};
-
-/* send message to AI */
-async function sendMessage() {
-
-  const text = input.value;
-
-  if (!text) return;
-
-  chat.innerHTML += `<div class="user">You: ${text}</div>`;
-  input.value = "";
-
-  const thinking = document.createElement("div");
-  thinking.className = "bot";
-  thinking.innerText = "Siggy is thinking...";
-  chat.appendChild(thinking);
-
-  try {
-
-    const res = await fetch("/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ message: text })
-    });
-
-    const data = await res.json();
-
-    thinking.innerText = "Siggy: " + data.reply;
-
-  } catch {
-
-    thinking.innerText = "⚠ Cannot reach server";
-
-  }
-
-  chat.scrollTop = chat.scrollHeight;
+chat.appendChild(msg)
+chat.scrollTop = chat.scrollHeight
 }
 
-send.onclick = sendMessage;
+send.onclick = () => {
 
-input.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") sendMessage();
-});
+const text = input.value
+
+if(!text) return
+
+addMessage(text,true)
+
+input.value=""
+
+setTimeout(()=>{
+addMessage("Siggy is thinking... 🔮",false)
+},500)
+
+}
+
+/* particles */
+
+tsParticles.load("tsparticles",{
+particles:{
+number:{value:60},
+color:{value:"#a78bfa"},
+links:{
+enable:true,
+color:"#a78bfa",
+distance:150
+},
+move:{
+enable:true,
+speed:1
+},
+size:{
+value:2
+}
+}
+})
