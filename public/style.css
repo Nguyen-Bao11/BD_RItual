@@ -1,51 +1,152 @@
 body{
 
-font-family: Arial;
-background:#0f172a;
+margin:0;
+font-family:Arial;
+background:#020617;
 color:white;
+overflow:hidden;
+
+}
+
+.background{
+
+position:fixed;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle,#0f172a,#020617);
+z-index:-1;
+
+}
+
+/* header */
+
+.header{
+
 display:flex;
-justify-content:center;
+justify-content:space-between;
+padding:20px 60px;
 align-items:center;
-height:100vh;
 
 }
 
-.chat-container{
+.logo{
 
-width:600px;
-background:#1e293b;
-padding:20px;
-border-radius:10px;
+display:flex;
+gap:10px;
+align-items:center;
 
 }
+
+.siggy-icon{
+
+width:40px;
+height:40px;
+border-radius:50%;
+background:linear-gradient(45deg,#7c3aed,#22d3ee);
+
+}
+
+.logo span{
+
+font-size:12px;
+opacity:0.6;
+
+}
+
+.status{
+
+color:#22c55e;
+font-size:14px;
+
+}
+
+/* center */
+
+.center{
+
+text-align:center;
+margin-top:120px;
+
+}
+
+.star{
+
+font-size:40px;
+color:#a78bfa;
+
+}
+
+h1{
+
+font-weight:500;
+
+}
+
+p{
+
+opacity:0.7;
+
+}
+
+/* chat */
 
 #chat{
 
-height:400px;
-overflow-y:auto;
-margin-bottom:10px;
+max-width:700px;
+margin:auto;
+margin-top:30px;
 
 }
 
 .user{
 
 color:#38bdf8;
-margin:5px 0;
+margin:10px;
 
 }
 
 .bot{
 
-color:#22c55e;
-margin:5px 0;
+color:#a78bfa;
+margin:10px;
+
+}
+
+/* input */
+
+.input-bar{
+
+position:fixed;
+bottom:40px;
+left:50%;
+transform:translateX(-50%);
+width:600px;
+display:flex;
+background:#0f172a;
+border-radius:12px;
+padding:8px;
 
 }
 
 input{
 
-width:100%;
-padding:10px;
+flex:1;
+background:transparent;
 border:none;
-border-radius:5px;
+color:white;
+font-size:16px;
+outline:none;
+
+}
+
+button{
+
+background:#7c3aed;
+border:none;
+color:white;
+padding:10px 16px;
+border-radius:8px;
+cursor:pointer;
 
 }
