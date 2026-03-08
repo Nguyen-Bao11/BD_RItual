@@ -118,7 +118,7 @@ typing.className = "message bot typing"
 typing.id = "typing"
 
 typing.innerHTML = `
-<div class="bot-icon">●</div>
+<div class="bot-icon">🕯</div>
 <div class="bubble">Bot đang trả lời...</div>
 `
 
