@@ -1,15 +1,16 @@
-const input = document.getElementById("input");
-const chat = document.getElementById("chat");
+const input = document.getElementById("input")
+const send = document.getElementById("send")
+const chat = document.getElementById("chat")
 
-input.addEventListener("keypress", async (e) => {
+async function sendMessage(){
 
-if(e.key === "Enter"){
+const text = input.value
 
-const text = input.value;
+if(!text) return
 
-chat.innerHTML += `<div class="user">You: ${text}</div>`;
+chat.innerHTML += `<div class="user">You: ${text}</div>`
 
-input.value="";
+input.value=""
 
 const res = await fetch("/chat",{
 
@@ -17,18 +18,25 @@ method:"POST",
 headers:{
 "Content-Type":"application/json"
 },
+
 body:JSON.stringify({
 message:text
 })
 
-});
+})
 
-const data = await res.json();
+const data = await res.json()
 
-chat.innerHTML += `<div class="bot">AI: ${data.reply}</div>`;
+chat.innerHTML += `<div class="bot">Siggy: ${data.reply}</div>`
 
-chat.scrollTop = chat.scrollHeight;
+chat.scrollTop = chat.scrollHeight
 
 }
 
-});
+send.onclick = sendMessage
+
+input.addEventListener("keypress",(e)=>{
+
+if(e.key==="Enter") sendMessage()
+
+})
