@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
-console.log("API KEY:", process.env.OPENAI_API_KEY ? "Loaded" : "Missing");
+console.log("API KEY:", process.env.OPENAI_API_KEY ? "Loaded ✅" : "Missing ❌");
 
 app.post("/chat", async (req, res) => {
   try {
@@ -23,20 +23,27 @@ app.post("/chat", async (req, res) => {
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4o-mini",
         messages: [
-          { role: "system", content: "You are Siggy AI, arcane guardian of Ritual." },
-          { role: "user", content: userMessage }
+          {
+            role: "system",
+            content: "You are Siggy, Arcane Guardian of Ritual. Friendly and helpful."
+          },
+          {
+            role: "user",
+            content: userMessage
+          }
         ]
       })
     });
 
     const data = await response.json();
 
+    console.log("OpenAI response:", data);
+
     if (!data.choices) {
-      console.log("OpenAI error:", data);
       return res.json({
-        reply: "⚠ AI request failed."
+        reply: "⚠ AI connection failed."
       });
     }
 
@@ -46,7 +53,7 @@ app.post("/chat", async (req, res) => {
 
   } catch (err) {
 
-    console.log(err);
+    console.error(err);
 
     res.json({
       reply: "⚠ Server error."
