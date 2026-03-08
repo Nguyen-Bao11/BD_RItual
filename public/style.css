@@ -288,3 +288,58 @@ bottom:90px;
 .chat-mode .title-zone{
 display:none; /* ẩn tiêu đề */
 }
+
+/* AVATAR */
+
+.avatar{
+width:38px;
+height:38px;
+border-radius:50%;
+object-fit:cover;
+flex-shrink:0;
+}
+
+/* BOT */
+
+.bot-avatar{
+box-shadow:0 0 12px #22c55e;
+}
+
+/* USER */
+
+.user-avatar{
+box-shadow:0 0 12px #7c3aed;
+}
+
+.bubble{
+background:rgba(20,20,40,0.6);
+backdrop-filter:blur(10px);
+
+padding:16px 20px;
+border-radius:16px;
+
+border:1px solid rgba(255,255,255,0.08);
+
+box-shadow:
+0 10px 30px rgba(0,0,0,0.4),
+0 0 15px rgba(124,58,237,0.3);
+}
+
+.message{
+display:flex;
+align-items:flex-start;
+gap:12px;
+
+animation:msgFade .3s ease;
+}
+
+@keyframes msgFade{
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
