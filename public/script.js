@@ -32,6 +32,8 @@ const text = input.value
 
 if(!text) return
 
+hideIntro()
+
 addMessage(text,true)
 
 input.value=""
