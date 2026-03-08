@@ -139,3 +139,49 @@ typing.remove()
 }
 
 }
+
+const attach = document.getElementById("attach")
+const fileInput = document.getElementById("fileInput")
+
+attach.onclick = () => {
+fileInput.click()
+}
+
+fileInput.onchange = () => {
+
+const file = fileInput.files[0]
+
+if(!file) return
+
+addMessage("📎 " + file.name, true)
+
+}
+
+const voice = document.getElementById("voice")
+
+const recognition = new webkitSpeechRecognition()
+
+recognition.lang = "auto"
+recognition.continuous = false
+
+voice.onclick = () => {
+recognition.start()
+}
+
+recognition.onresult = (event) => {
+
+const text = event.results[0][0].transcript
+
+input.value = text
+
+}
+
+const mode = document.getElementById("mode")
+
+mode.onchange = () => {
+
+const selected = mode.value
+
+console.log("Mode:", selected)
+
+}
