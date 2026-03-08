@@ -239,3 +239,12 @@ opacity:0.8;
 margin-top:6px;
 text-align:center;
 }
+
+/* Ẩn tiêu đề khi bắt đầu chat */
+
+.title-zone.hide{
+opacity:0;
+transform:translateY(-20px);
+pointer-events:none;
+transition:0.5s ease;
+}
