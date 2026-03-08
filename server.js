@@ -37,9 +37,10 @@ app.post("/chat", async (req, res) => {
       })
     });
 
-    const data = await response.json();
+    const text = await response.text();   // 👈 debug cực quan trọng
+    console.log("RAW AI RESPONSE:", text);
 
-    console.log("OpenAI response:", data);
+    const data = JSON.parse(text);
 
     if (!data.choices) {
       return res.json({
@@ -53,7 +54,7 @@ app.post("/chat", async (req, res) => {
 
   } catch (err) {
 
-    console.error(err);
+    console.error("SERVER ERROR:", err);
 
     res.json({
       reply: "⚠ Server error."
