@@ -9,8 +9,9 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
-app.post("/chat", async (req, res) => {
+console.log("API KEY:", process.env.OPENROUTER_API_KEY ? "Loaded ✅" : "Missing ❌");
 
+app.post("/chat", async (req, res) => {
   try {
 
     const userMessage = req.body.message;
@@ -45,6 +46,11 @@ app.post("/chat", async (req, res) => {
 
     const data = await response.json();
 
+    if (!data.choices) {
+      console.log(data);
+      return res.json({ reply: "⚠ AI connection failed." });
+    }
+
     res.json({
       reply: data.choices[0].message.content
     });
@@ -58,7 +64,6 @@ app.post("/chat", async (req, res) => {
     });
 
   }
-
 });
 
 const PORT = process.env.PORT || 3000;
