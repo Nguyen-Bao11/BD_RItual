@@ -1,44 +1,75 @@
-const input = document.getElementById("input");
-const send = document.getElementById("send");
-const chat = document.getElementById("chat");
+const messages = document.getElementById("messages")
 
-async function sendMessage() {
+function add(text, cls){
 
-  const text = input.value;
+const div = document.createElement("div")
 
-  if (!text) return;
+div.className = "msg " + cls
 
-  chat.innerHTML += `<div class="user">You: ${text}</div>`;
+div.textContent = text
 
-  input.value = "";
+messages.appendChild(div)
 
-  chat.innerHTML += `<div class="bot">Siggy is thinking...</div>`;
+messages.scrollTop = messages.scrollHeight
 
-  try {
-
-    const res = await fetch("/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ message: text })
-    });
-
-    const data = await res.json();
-
-    chat.innerHTML += `<div class="bot">Siggy: ${data.reply}</div>`;
-
-  } catch {
-
-    chat.innerHTML += `<div class="bot">⚠ Cannot reach server</div>`;
-
-  }
-
-  chat.scrollTop = chat.scrollHeight;
 }
 
-send.onclick = sendMessage;
+async function send(){
 
-input.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") sendMessage();
-});
+const input = document.getElementById("input")
+
+const text = input.value
+
+if(!text) return
+
+add("You: " + text, "user")
+
+input.value=""
+
+add("Siggy is thinking...", "bot")
+
+const res = await fetch("/chat",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+message:text
+})
+
+})
+
+const data = await res.json()
+
+messages.lastChild.remove()
+
+typeText("Siggy: " + data.reply)
+
+}
+
+function typeText(text){
+
+let i=0
+
+const div=document.createElement("div")
+
+div.className="msg bot"
+
+messages.appendChild(div)
+
+const interval=setInterval(()=>{
+
+div.textContent += text[i]
+
+i++
+
+if(i>=text.length){
+clearInterval(interval)
+}
+
+},20)
+
+}
