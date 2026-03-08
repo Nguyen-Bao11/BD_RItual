@@ -13,8 +13,9 @@ send.click()
 
 function addMessage(text, user){
 
-const chat = document.getElementById("chat")
-
+const msg = document.createElement("div")
+msg.className = "message"
+  
 const msg = document.createElement("div")
 msg.className = "message"
 
@@ -32,6 +33,7 @@ msg.innerHTML = `
 }
 
 chat.appendChild(msg)
+chat.scrollTop = chat.scrollHeight
 
 }
 
