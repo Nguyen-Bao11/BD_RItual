@@ -50,12 +50,26 @@ input.value=""
 
 botTyping()
 
-setTimeout(()=>{
+fetch("/chat",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+message:text
+})
+})
+.then(res=>res.json())
+.then(data=>{
 
 removeTyping()
-addMessage("Siggy is thinking... 🔮",false)
+addMessage(data.reply,false)
 
-},1500)
+})
+.catch(err=>{
+removeTyping()
+addMessage("Siggy lost connection to the arcane realm... ⚡",false)
+})
 
 }
 
