@@ -1,17 +1,14 @@
 {
-  "name": "siggy-ai-bot",
-  "version": "2.1.0",
-  "description": "Siggy AI Auto Reply Bot - Web interface with simple keyword-based responses (ready for OpenAI upgrade)",
+  "name": "siggy-ai",
+  "version": "1.0.0",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "engines": {
-    "node": ">=18"
-  },
   "dependencies": {
-    "express": "^4.19.2"
-  },
-  "author": "Demon Knight",
-  "license": "MIT"
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.2"
+  }
 }
