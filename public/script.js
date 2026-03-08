@@ -21,13 +21,16 @@ msg.className = "message"
 
 if(user){
 msg.classList.add("user")
+// USER
 msg.innerHTML = `
 <div class="bubble">${text}</div>
+<img class="avatar user-avatar" src="user.png">
 `
 }
 else{
+// BOT
 msg.innerHTML = `
-<div class="bot-icon">●</div>
+<img class="avatar bot-avatar" src="bot.png">
 <div class="bubble">${text}</div>
 `
 }
