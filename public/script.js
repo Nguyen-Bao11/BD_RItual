@@ -185,3 +185,43 @@ const selected = mode.value
 console.log("Mode:", selected)
 
 }
+
+/* FILE ATTACH */
+
+const attach = document.getElementById("attach")
+const fileInput = document.getElementById("fileInput")
+
+attach.onclick = () => {
+fileInput.click()
+}
+
+fileInput.onchange = () => {
+
+const file = fileInput.files[0]
+
+if(!file) return
+
+// hiển thị file trong chat
+addMessage("📎 " + file.name, true)
+
+// nếu muốn gửi file lên server
+const formData = new FormData()
+formData.append("file", file)
+
+fetch("/upload", {
+method: "POST",
+body: formData
+})
+.then(res => res.json())
+.then(data => {
+
+if(data.reply){
+addMessage(data.reply,false)
+}
+
+})
+.catch(err=>{
+addMessage("Siggy could not read the artifact... ⚡", false)
+})
+
+}
