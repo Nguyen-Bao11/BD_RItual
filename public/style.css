@@ -150,3 +150,11 @@ border-radius:8px;
 cursor:pointer;
 
 }
+
+.ritual-logo{
+
+width:140px;
+margin-bottom:25px;
+filter:drop-shadow(0 0 20px #8b5cf6);
+
+}
