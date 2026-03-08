@@ -101,6 +101,8 @@ function hideIntro(){
 if(startedChat) return
 startedChat = true
 
+document.body.classList.add("chat-mode")
+
 const intro = document.querySelector(".title-zone")
 if(intro){
 intro.classList.add("hide")
