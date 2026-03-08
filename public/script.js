@@ -2,6 +2,15 @@ const chat = document.getElementById("chat")
 const input = document.getElementById("input")
 const send = document.getElementById("send")
 
+input.addEventListener("keydown", function(e) {
+
+if (e.key === "Enter" && !e.shiftKey) {
+e.preventDefault()
+send.click()
+}
+
+})
+
 function addMessage(text, user){
 
 const chat = document.getElementById("chat")
@@ -38,9 +47,14 @@ addMessage(text,true)
 
 input.value=""
 
+botTyping()
+
 setTimeout(()=>{
+
+removeTyping()
 addMessage("Siggy is thinking... 🔮",false)
-},500)
+
+},1500)
 
 }
 
@@ -75,4 +89,32 @@ const intro = document.querySelector(".title-zone")
 if(intro){
 intro.classList.add("hide")
 }
+}
+
+function botTyping(){
+
+const chat = document.getElementById("chat")
+
+const typing = document.createElement("div")
+typing.className = "message bot typing"
+typing.id = "typing"
+
+typing.innerHTML = `
+<div class="bot-icon">●</div>
+<div class="bubble">Bot đang trả lời...</div>
+`
+
+chat.appendChild(typing)
+chat.scrollTop = chat.scrollHeight
+
+}
+
+function removeTyping(){
+
+const typing = document.getElementById("typing")
+
+if(typing){
+typing.remove()
+}
+
 }
