@@ -15,7 +15,61 @@ width:100%;
 height:100%;
 background:
 radial-gradient(circle,#0f172a,#020617);
+z-index:-2;
+
+}
+
+/* star dust */
+
+.stars{
+position:fixed;
+width:100%;
+height:100%;
+top:0;
+left:0;
+pointer-events:none;
 z-index:-1;
+}
+
+.stars::before,
+.stars::after{
+
+content:"";
+position:absolute;
+width:2px;
+height:2px;
+background:#a78bfa;
+
+box-shadow:
+100px 200px #22d3ee,
+200px 400px #a78bfa,
+300px 150px #22d3ee,
+400px 500px #a78bfa,
+500px 300px #22d3ee,
+600px 450px #a78bfa,
+700px 250px #22d3ee,
+800px 350px #a78bfa,
+900px 150px #22d3ee,
+1000px 450px #a78bfa,
+1100px 200px #22d3ee,
+1200px 350px #a78bfa,
+1300px 120px #22d3ee,
+1400px 400px #a78bfa,
+1500px 250px #22d3ee;
+
+animation:starsMove 80s linear infinite;
+
+}
+
+@keyframes starsMove{
+
+from{
+transform:translateY(0);
+}
+
+to{
+transform:translateY(-2000px);
+}
 
 }
 
