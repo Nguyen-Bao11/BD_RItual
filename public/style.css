@@ -67,7 +67,8 @@ box-shadow:0 0 8px #22c55e;
 .center{
 position:fixed;
 top:120px;
-bottom:120px;
+bottom:90px; /* sát input bar */
+
 left:50%;
 transform:translateX(-50%);
 
@@ -89,7 +90,18 @@ gap:18px;
 
 overflow-y:auto;
 padding-bottom:20px;
+
 scroll-behavior:smooth;
+
+/* Ẩn scrollbar mọi trình duyệt */
+scrollbar-width:none;
+-ms-overflow-style:none;
+}
+
+#chat::-webkit-scrollbar{
+width:0;
+height:0;
+display:none;
 }
 
 /* ===== MESSAGE ===== */
