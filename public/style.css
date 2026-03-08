@@ -71,10 +71,8 @@ margin-top:120px;
 }
 
 .star{
-
-font-size:40px;
-color:#a78bfa;
-
+font-size:60px;
+filter: drop-shadow(0 0 10px #a78bfa);
 }
 
 h1{
