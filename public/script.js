@@ -1,15 +1,16 @@
 const chat = document.getElementById("chat")
 const input = document.getElementById("input")
-const send = document.getElementById("send")
 
-input.addEventListener("keydown", function(e) {
+input.addEventListener("keydown", function(e){
 
-if (e.key === "Enter" && !e.shiftKey) {
+if(e.key === "Enter" && !e.shiftKey){
 e.preventDefault()
 send.click()
 }
 
 })
+
+const send = document.getElementById("send")
 
 function addMessage(text, user){
 
