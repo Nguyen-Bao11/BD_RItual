@@ -28,9 +28,9 @@ async function sendMessage() {
 
     chat.innerHTML += `<div class="bot">Siggy: ${data.reply}</div>`;
 
-  } catch (err) {
+  } catch {
 
-    chat.innerHTML += `<div class="bot">⚠️ Server error</div>`;
+    chat.innerHTML += `<div class="bot">⚠ Cannot reach server</div>`;
 
   }
 
