@@ -1,74 +1,46 @@
 body{
-
 margin:0;
 font-family:Arial;
-background:#020617;
+background:black;
 color:white;
 overflow:hidden;
-
 }
+
+/* background */
 
 .background{
-
 position:fixed;
 width:100%;
 height:100%;
-background:
-radial-gradient(circle,#0f172a,#020617);
-z-index:-2;
-
+background:radial-gradient(circle at center,#111,#000);
+overflow:hidden;
 }
 
-/* star dust */
+/* bụi sao */
 
-.stars{
-position:fixed;
-width:100%;
-height:100%;
-top:0;
-left:0;
-pointer-events:none;
-z-index:-1;
-}
-
-.stars::before,
-.stars::after{
-
+.background::before{
 content:"";
 position:absolute;
-width:2px;
-height:2px;
-background:#a78bfa;
-
-box-shadow:
-100px 200px #22d3ee,
-200px 400px #a78bfa,
-300px 150px #22d3ee,
-400px 500px #a78bfa,
-500px 300px #22d3ee,
-600px 450px #a78bfa,
-700px 250px #22d3ee,
-800px 350px #a78bfa,
-900px 150px #22d3ee,
-1000px 450px #a78bfa,
-1100px 200px #22d3ee,
-1200px 350px #a78bfa,
-1300px 120px #22d3ee,
-1400px 400px #a78bfa,
-1500px 250px #22d3ee;
-
-animation:starsMove 80s linear infinite;
-
+width:200%;
+height:200%;
+background-image:
+radial-gradient(2px 2px at 20% 30%,#6cf,transparent),
+radial-gradient(2px 2px at 40% 70%,#f6c,transparent),
+radial-gradient(2px 2px at 80% 40%,#9ff,transparent),
+radial-gradient(2px 2px at 60% 20%,#c6f,transparent),
+radial-gradient(2px 2px at 10% 80%,#6ff,transparent);
+animation:starsMove 25s linear infinite;
+opacity:0.8;
 }
 
 @keyframes starsMove{
 
-from{
+0%{
 transform:translateY(0);
 }
 
-to{
-transform:translateY(-2000px);
+100%{
+transform:translateY(-800px);
 }
 
 }
@@ -76,131 +48,83 @@ transform:translateY(-2000px);
 /* header */
 
 .header{
-
 display:flex;
 justify-content:space-between;
-padding:20px 60px;
-align-items:center;
-
-}
-
-.logo{
-
-display:flex;
-gap:10px;
-align-items:center;
-
-}
-
-.siggy-icon{
-
-width:40px;
-height:40px;
-border-radius:50%;
-background:linear-gradient(45deg,#7c3aed,#22d3ee);
-
-}
-
-.logo span{
-
-font-size:12px;
-opacity:0.6;
-
-}
-
-.status{
-
-color:#22c55e;
-font-size:14px;
-
+padding:20px;
+background:rgba(0,0,0,0.6);
+border-bottom:1px solid #333;
 }
 
 /* center */
 
 .center{
-
-text-align:center;
-margin-top:60px;
-
+position:absolute;
+top:80px;
+left:0;
+right:0;
+bottom:90px;
+display:flex;
+flex-direction:column;
+align-items:center;
 }
+
+/* title zone */
+
+.title-zone{
+text-align:center;
+margin-bottom:10px;
+}
+
+/* wizard icon */
 
 .star{
-font-size:60px;
-filter: drop-shadow(0 0 10px #a78bfa);
+font-size:42px;
+animation:float 4s ease-in-out infinite;
 }
 
-h1{
-
-font-weight:500;
-
-}
-
-p{
-
-opacity:0.7;
-
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(-10px)}
+100%{transform:translateY(0)}
 }
 
 /* chat */
 
 #chat{
-
+flex:1;
+width:70%;
 max-width:700px;
-margin:auto;
-margin-top:30px;
-height:260px;
+background:rgba(20,20,30,0.6);
+border:1px solid #333;
+border-radius:10px;
+padding:20px;
 overflow-y:auto;
-
-}
-
-.user{
-
-color:#38bdf8;
-margin:10px;
-
-}
-
-.bot{
-
-color:#a78bfa;
-margin:10px;
-
 }
 
 /* input */
 
 .input-bar{
-
 position:fixed;
-bottom:40px;
-left:50%;
-transform:translateX(-50%);
-width:600px;
+bottom:0;
+width:100%;
 display:flex;
-background:#0f172a;
-border-radius:12px;
-padding:8px;
-
+background:#111;
+border-top:1px solid #333;
 }
 
-input{
-
+#input{
 flex:1;
-background:transparent;
+padding:15px;
 border:none;
+background:#111;
 color:white;
-font-size:16px;
-outline:none;
-
 }
 
-button{
-
-background:#7c3aed;
+#send{
+width:70px;
 border:none;
-color:white;
-padding:10px 16px;
-border-radius:8px;
+background:#6cf;
+color:black;
+font-size:18px;
 cursor:pointer;
-
 }
