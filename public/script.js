@@ -185,3 +185,27 @@ const selected = mode.value
 console.log("Mode:", selected)
 
 }
+
+const voice = document.getElementById("voice")
+
+const recognition = new webkitSpeechRecognition()
+
+voice.onclick = () => {
+
+voice.classList.add("recording")
+
+recognition.start()
+
+}
+
+recognition.onresult = (event)=>{
+
+input.value = event.results[0][0].transcript
+
+voice.classList.remove("recording")
+
+}
+
+recognition.onend = ()=>{
+voice.classList.remove("recording")
+}
