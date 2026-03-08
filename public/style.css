@@ -1,1 +1,51 @@
+body{
 
+font-family: Arial;
+background:#0f172a;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+
+}
+
+.chat-container{
+
+width:600px;
+background:#1e293b;
+padding:20px;
+border-radius:10px;
+
+}
+
+#chat{
+
+height:400px;
+overflow-y:auto;
+margin-bottom:10px;
+
+}
+
+.user{
+
+color:#38bdf8;
+margin:5px 0;
+
+}
+
+.bot{
+
+color:#22c55e;
+margin:5px 0;
+
+}
+
+input{
+
+width:100%;
+padding:10px;
+border:none;
+border-radius:5px;
+
+}
