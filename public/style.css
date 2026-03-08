@@ -146,6 +146,7 @@ box-shadow:0 0 20px rgba(124,58,237,0.7);
 .bot-icon{
 width:32px;
 height:32px;
+height:32px;
 border-radius:50%;
 background:#111633;
 
@@ -153,9 +154,11 @@ display:flex;
 align-items:center;
 justify-content:center;
 
+flex-shrink:0;
+
 box-shadow:0 0 10px #22c55e;
 
-animation:candleGlow 2s infinite; /* thêm dòng này */
+animation:candleGlow 2s infinite;
 }
 
 /* hiệu ứng ánh nến */
