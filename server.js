@@ -1,81 +1,193 @@
 import express from "express";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
+import { autoUpdate } from "./autoUpdate.js";
+import fs from "fs";
 
 dotenv.config();
 
-const app = express();
+const memoryFile = "memory.json";
+let memory = [];
 
+// Load memory
+if (fs.existsSync(memoryFile)) {
+  memory = JSON.parse(fs.readFileSync(memoryFile));
+}
+
+const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
-console.log("API KEY:", process.env.OPENROUTER_API_KEY ? "Loaded ✅" : "Missing ❌");
+console.log(
+  "API KEY:",
+  process.env.OPENROUTER_API_KEY ? "Loaded ✅" : "Missing ❌"
+);
 
+// 🔄 Auto Update khi khởi động
+autoUpdate();
+
+
+// =============================
+// 🌐 GOOGLE SEARCH
+// =============================
+async function googleSearch(query) {
+  try {
+
+    if (!process.env.GOOGLE_API_KEY || !process.env.GOOGLE_CX) {
+      return "Google search not configured.";
+    }
+
+    const url =
+      `https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(query)}&key=${process.env.GOOGLE_API_KEY}&cx=${process.env.GOOGLE_CX}`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data.items) return "No Google results.";
+
+    return data.items
+      .slice(0, 3)
+      .map(i => `${i.title} - ${i.snippet}`)
+      .join("\n");
+
+  } catch (err) {
+    console.log("Google search error:", err);
+    return "Google search failed.";
+  }
+}
+
+
+// =============================
+// 🌐 DUCKDUCKGO SEARCH
+// =============================
+async function duckSearch(query) {
+
+  try {
+
+    const url =
+      "https://api.duckduckgo.com/?q=" +
+      encodeURIComponent(query) +
+      "&format=json";
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.Abstract) return data.Abstract;
+
+    if (data.RelatedTopics && data.RelatedTopics.length > 0) {
+      return data.RelatedTopics[0].Text;
+    }
+
+    return "No DuckDuckGo results.";
+
+  } catch (err) {
+    console.log("Duck error:", err);
+    return "DuckDuckGo failed.";
+  }
+
+}
+
+
+// =============================
+// 🌐 INTERNET SEARCH COMBINED
+// =============================
+async function searchInternet(query) {
+
+  const google = await googleSearch(query);
+  const duck = await duckSearch(query);
+
+  return `Google Results:
+${google}
+
+DuckDuckGo:
+${duck}`;
+
+}
+
+
+// =============================
+// 💬 CHAT API
+// =============================
 app.post("/chat", async (req, res) => {
 
   try {
 
     const userMessage = req.body.message;
 
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    // lưu memory
+    memory.push({
+      role: "user",
+      content: userMessage
+    });
 
-      method: "POST",
+    // giới hạn memory
+    if (memory.length > 20) {
+      memory.shift();
+    }
 
-      headers: {
-        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        "Content-Type": "application/json"
-      },
+    fs.writeFileSync(memoryFile, JSON.stringify(memory, null, 2));
 
-      body: JSON.stringify({
+    // lấy info internet
+    const internetInfo = await searchInternet(userMessage);
 
-        model: "meta-llama/llama-3.1-8b-instruct",
+    const messages = [
 
-        messages: [
-          {
-            role: "system",
-            content: `
-You are Siggy, the Arcane Guardian of Ritual.
-
-IMPORTANT:
-- Detect the language of the user's message.
-- Always reply in the same language as the user.
-- If the user switches language, switch too.
-
-Personality:
-- mysterious
-- wise
-- calm
-- slightly mystical but friendly
+      {
+        role: "system",
+        content: `You are Siggy, a mystical AI guide.
 
 Rules:
-- You can answer questions about daily life, knowledge, technology, or general topics.
-- Never say you lack real-time data.
-- If asked about time/date, estimate based on normal knowledge.
-- Keep answers helpful and concise.
+- Detect user's language
+- Always reply same language
+- Use internet info if useful
+- Be wise and helpful`
+      },
 
-You are not just an AI assistant.
-You are a mystical guide called Siggy.
-`
-          },
-          {
-            role: "user",
-            content: userMessage
-          }
-        ]
+      {
+        role: "system",
+        content: "Internet info:\n" + internetInfo
+      },
 
-      })
+      ...memory
 
-    });
+    ];
+
+    const response = await fetch(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "meta-llama/llama-3.1-8b-instruct",
+          messages: messages
+        })
+      }
+    );
 
     const data = await response.json();
 
     if (!data.choices) {
       console.log(data);
-      return res.json({ reply: "⚠ AI connection failed." });
+      return res.json({
+        reply: "⚠ AI connection failed."
+      });
     }
 
+    const aiReply = data.choices[0].message.content;
+
+    // lưu reply
+    memory.push({
+      role: "assistant",
+      content: aiReply
+    });
+
+    fs.writeFileSync(memoryFile, JSON.stringify(memory, null, 2));
+
     res.json({
-      reply: data.choices[0].message.content
+      reply: aiReply
     });
 
   } catch (err) {
@@ -90,8 +202,26 @@ You are a mystical guide called Siggy.
 
 });
 
+
+// =============================
+// 🌐 SERVER
+// =============================
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log("Siggy running on port", PORT);
+  console.log("🚀 Siggy running on port", PORT);
+});
+
+
+// =============================
+// 💾 TEST DATA
+// =============================
+app.get("/chat-data", (req, res) => {
+
+  res.send(`
+<div class="message bot">
+<div class="bubble">Siggy is watching the stars ✨</div>
+</div>
+`);
+
 });
