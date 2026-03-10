@@ -13,6 +13,33 @@ send.click()
 
 })
 
+/* LANGUAGE DETECT */
+
+function detectLanguage(text){
+
+const langMap = {
+vi:/[ăâêôơưđ]/i,
+ja:/[\u3040-\u30ff]/,
+ko:/[\uac00-\ud7af]/,
+ru:/[а-яА-Я]/,
+zh:/[\u4e00-\u9fff]/,
+ar:/[\u0600-\u06FF]/,
+hi:/[\u0900-\u097F]/,
+th:/[\u0E00-\u0E7F]/
+}
+
+for(const lang in langMap){
+
+if(langMap[lang].test(text)){
+return lang
+}
+
+}
+
+return "en"
+
+}
+
 /* ADD MESSAGE */
 
 function addMessage(text, user){
@@ -64,6 +91,8 @@ input.value=""
 
 botTyping()
 
+const language = detectLanguage(text)
+
 fetch("/chat",{
 
 method:"POST",
@@ -73,7 +102,8 @@ headers:{
 },
 
 body:JSON.stringify({
-message:text
+message:text,
+lang:language
 })
 
 })
@@ -98,7 +128,7 @@ addMessage("Siggy lost connection to the arcane realm... ⚡",false)
 /* LOAD OLD CHAT */
 
 window.onload = function() {
-  chat.innerHTML = "";
+chat.innerHTML = "";
 }
 
 /* PARTICLES */
@@ -289,27 +319,5 @@ overlay.remove()
 }
 
 }
-
-})
-
-app.post("/search", async (req,res)=>{
-
-const query = req.body.query
-
-const response = await fetch(
-`https://google.serper.dev/search`,
-{
-method:"POST",
-headers:{
-"X-API-KEY":process.env.SERPER_KEY,
-"Content-Type":"application/json"
-},
-body:JSON.stringify({q:query})
-}
-)
-
-const data = await response.json()
-
-res.json(data)
 
 })
